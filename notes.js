@@ -9,12 +9,18 @@ const addNote = (title, body) => {
     body,
   };
 
-  const notesString = fs.readFileSync('notes-data.json');
-  notes = JSON.parse(notesString);
+  try {
+    const notesString = fs.readFileSync('notes-data.json');
+    notes = JSON.parse(notesString);
+  } catch (e) { console.log('Could not read from notes-data. Creating a new file...'); }
 
-  fs.writeFileSync('notes-data.json', JSON.stringify(notes.concat(note)), (err) => {
-    if (err) throw err;
-  });
+  if (!notes.find(el => el.title === title)) {
+    fs.writeFileSync('notes-data.json', JSON.stringify(notes.concat(note)), (err) => {
+      if (err) throw err;
+    });
+  } else {
+    console.log('This title already exists...');
+  }
 };
 
 const getAll = () => {
