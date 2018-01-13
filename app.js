@@ -1,13 +1,26 @@
 console.log('Starting app...');
 
 const fs = require('fs');
-const os = require('os');
+const _ = require('lodash');
+
 const notes = require('./notes.js');
+const yargs = require('yargs');
 
-const { username } = os.userInfo();
-const greeting = `hello ${username}`;
+const { argv } = yargs;
+const command = process.argv[2];
+console.log('command:', command);
+console.log('process', process.argv);
+console.log('YARGS', argv);
 
-fs.appendFile('greetings.txt', greeting, (err) => {
-  if (err) throw err;
-  console.log('The data has been appended successfully');
-});
+
+if (command === 'add') {
+  console.log('Adding new note');
+} else if (command === 'list') {
+  console.log('Listing notes');
+} else if (command === 'read') {
+  console.log('Reading notes');
+} else if (command === 'remove') {
+  console.log('Removing notes');
+} else {
+  console.log('Command not recognized');
+}
