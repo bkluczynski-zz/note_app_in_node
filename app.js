@@ -11,17 +11,19 @@ const command = argv._[0];
 
 if (command === 'add') {
   const note = notes.addNote(argv.title, argv.body);
-  if (note) {
-    console.log('Note has been successfully added');
-  } else {
-    console.log('Note of this title already exists');
-  }
+  const message = note ? 'Note added' : 'Note already exists';
+  console.log(message);
 } else if (command === 'list') {
-  notes.getAll();
+  const allNotes = notes.getAll();
+  allNotes.map(note => console.log(`Note : ${note.title}, ${note.body} \n`));
 } else if (command === 'read') {
-  notes.getNote(argv.title);
+  const note = notes.getNote(argv.title);
+  const message = note ? `Reading note: ${note.title}, ${note.body}` : 'Note not found';
+  console.log(message);
 } else if (command === 'remove') {
-  notes.removeNote(argv.title);
+  const noteRemoved = notes.removeNote(argv.title);
+  const message = noteRemoved ? 'Note removed' : 'Note not found';
+  console.log(message);
 } else {
   console.log('Command not recognized');
 }

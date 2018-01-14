@@ -10,7 +10,10 @@ const fetchNotes = () => {
 
 const saveNotes = notes => fs.writeFileSync('notes-data.json', JSON.stringify(notes));
 
+const findNoteBy = (notes, title) => notes.find(note => note.title === title);
+
 module.exports = {
   fetchNotes,
   saveNotes,
+  findNoteBy,
 };

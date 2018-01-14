@@ -14,18 +14,22 @@ const addNote = (title, body) => {
 };
 
 const getAll = () => {
-  console.log('Getting notes');
+  const notes = utils.fetchNotes();
+  return notes;
 };
 
 const getNote = (title) => {
-  console.log('Reading note: ', title);
+  const notes = utils.fetchNotes();
+  return utils.findNoteBy(notes, title);
 };
 
 const removeNote = (title) => {
   const notes = utils.fetchNotes();
-  if (notes.find(el => el.title === title)) {
+  if (utils.findNoteBy(notes, title)) {
     utils.saveNotes(notes.filter(note => note.title !== title));
+    return true;
   }
+  return false;
 };
 module.exports = {
   addNote,
