@@ -2,24 +2,26 @@ console.log('Starting notes.js');
 
 const fs = require('fs');
 
+const fetchNotes = () => {
+  try {
+    const notesString = fs.readFileSync('notes-data.json');
+    return JSON.parse(notesString);
+  } catch (e) { console.log('Could not read from notes-data. Creating a new file...'); }
+  return [];
+};
+
+const saveNotes = notes => fs.writeFileSync('notes-data.json', JSON.stringify(notes));
+
 const addNote = (title, body) => {
-  let notes = [];
+  const notes = fetchNotes();
   const note = {
     title,
     body,
   };
-
-  try {
-    const notesString = fs.readFileSync('notes-data.json');
-    notes = JSON.parse(notesString);
-  } catch (e) { console.log('Could not read from notes-data. Creating a new file...'); }
-
   if (!notes.find(el => el.title === title)) {
-    fs.writeFileSync('notes-data.json', JSON.stringify(notes.concat(note)), (err) => {
-      if (err) throw err;
-    });
+    saveNotes(notes.concat(note));
   } else {
-    console.log('This title already exists...');
+    console.log('The title already exists...');
   }
 };
 
