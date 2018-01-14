@@ -1,28 +1,16 @@
-console.log('Starting notes.js');
-
-const fs = require('fs');
-
-const fetchNotes = () => {
-  try {
-    const notesString = fs.readFileSync('notes-data.json');
-    return JSON.parse(notesString);
-  } catch (e) { console.log('Could not read from notes-data. Creating a new file...'); }
-  return [];
-};
-
-const saveNotes = notes => fs.writeFileSync('notes-data.json', JSON.stringify(notes));
+const utils = require('./utils');
 
 const addNote = (title, body) => {
-  const notes = fetchNotes();
+  const notes = utils.fetchNotes();
   const note = {
     title,
     body,
   };
   if (!notes.find(el => el.title === title)) {
-    saveNotes(notes.concat(note));
-  } else {
-    console.log('The title already exists...');
+    utils.saveNotes(notes.concat(note));
+    return note;
   }
+  return undefined;
 };
 
 const getAll = () => {
@@ -34,7 +22,10 @@ const getNote = (title) => {
 };
 
 const removeNote = (title) => {
-  console.log('Deleting note: ', title);
+  const notes = utils.fetchNotes();
+  if (notes.find(el => el.title === title)) {
+    utils.saveNotes(notes.filter(note => note.title !== title));
+  }
 };
 module.exports = {
   addNote,
