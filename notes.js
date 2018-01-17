@@ -13,10 +13,7 @@ const addNote = (title, body) => {
   return undefined;
 };
 
-const getAll = () => {
-  const notes = utils.fetchNotes();
-  return notes;
-};
+const getAll = () => utils.fetchNotes();
 
 const getNote = (title) => {
   const notes = utils.fetchNotes();
@@ -31,6 +28,7 @@ const removeNote = (title) => {
   }
   return false;
 };
+
 module.exports = {
   addNote,
   getAll,
